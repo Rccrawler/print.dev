@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <script>document.documentElement.style.background="#11151c";try{if(localStorage.getItem("user_lang")==="en")document.documentElement.classList.add("i18n-loading")}catch(e){}</script>
+        <script>
+            (function() {
+                let theme = 'dark';
+                try {
+                    if (localStorage.getItem('user_theme') === 'light') theme = 'light';
+                } catch {}
+                document.documentElement.setAttribute('data-theme', theme);
+            })();
+        </script>
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+        <title data-i18n="title_java">Mini intérprete de Java online, sin instalar nada | print.dev</title>
+        <meta name="description" content="Ejecuta un subconjunto básico de Java (variables, println, if/else, for, while) directamente en el navegador, sin instalar el JDK.">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="css/styles.css">
+        <script src="js/locales.js" defer></script>
+        <script src="js/i18n.js" defer></script>
+    </head>
+
+    <body class="tool-page">
+
+        <main>
+            <div class="wrap">
+                <a class="back" href="index.html" data-i18n="back_to_tools">← Volver a todas las herramientas</a>
+
+                <div class="card" style="view-transition-name:vt-java">
+                    <h1 style="font-size:26px;margin-bottom:6px" data-i18n="tool_java_h1">Mini intérprete de Java</h1>
+                    <p style="color:var(--text-dim);font-size:14px;margin-bottom:16px" data-i18n="tool_java_sub">Un subconjunto básico de Java — variables, System.out.println, if/else, for, while — ejecutado por completo en tu navegador.</p>
+                    <textarea id="javaIn" style="min-height:150px">int x = 5;&#10;for (int i = 0; i &lt; x; i++) {&#10;    System.out.println("Vuelta " + i);&#10;}</textarea>
+                    <div class="row">
+                        <button class="btn primary" onclick="runJavaCode()" data-i18n="btn_run">Ejecutar</button>
+                        <button class="btn" onclick="document.getElementById('javaIn').value='';document.getElementById('javaOut').textContent=''" data-i18n="btn_clear">Limpiar</button>
+                    </div>
+                    <div class="out" id="javaOut"></div>
+                    <small data-i18n="tool_java_note">Solo lo básico: sin clases, métodos propios, arrays ni imports.</small>
+                </div>
+
+                <article>
+                    <h2 data-i18n="java_faq1_q">¿Cómo funciona sin instalar el JDK?</h2>
+                    <p data-i18n="java_faq1_a">Este intérprete no usa Java real por debajo: es un tokenizer, un parser y un evaluador escritos desde cero en JavaScript que entienden un subconjunto del lenguaje. Analiza tu código, lo convierte en una estructura interna y la ejecuta paso a paso, tal y como haría un intérprete de verdad, pero a menor escala.</p>
+                    <h2 data-i18n="java_faq2_q">¿Qué puedo probar aquí?</h2>
+                    <p data-i18n="java_faq2_a">Declaraciones de variables (int, double, boolean, String), impresión por consola, operadores aritméticos y lógicos, condicionales if/else, y bucles for y while. Es ideal para probar un fragmento rápido sin abrir un IDE.</p>
+                </article>
+            </div>
+        </main>
+
+        <script src="js/java-interprete.js"></script>
+    </body>
+</html>

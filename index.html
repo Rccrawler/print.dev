@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+
+    <head>
+        <meta charset="UTF-8">
+        <script>document.documentElement.style.background="#11151c";try{if(localStorage.getItem("user_lang")==="en")document.documentElement.classList.add("i18n-loading")}catch(e){}</script>
+        <!-- Previene el parpadeo de color leyendo el tema guardado antes de renderizar el CSS -->
+        <script>        
+            (function() {
+                let theme = 'dark';
+                try {
+                    if (localStorage.getItem('user_theme') === 'light') theme = 'light';
+                } catch {}
+                document.documentElement.setAttribute('data-theme', theme);
+            })();
+        </script>
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+        <title data-i18n="title_home">print.dev | Herramientas online para desarrolladores</title>
+        <meta name="description" content="Herramientas online gratis para programadores: formateador JSON, Base64, intérprete de Java, intérprete de Phyton.">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="css/styles.css">
+
+        <script src="js/locales.js" defer></script>
+        <script src="js/i18n.js" defer></script>
+        <script src="js/theme.js" defer></script>
+        <script src="js/fast-navigation.js" defer></script>
+    </head>
+
+    <body>
+
+        <header>
+            <div class="wrap">
+                <a class="brand" href="index.html">print<span>.</span>dev</a>
+                <div class="runtime-panel" aria-label="Código del portfolio ejecutándose en el navegador">
+                    <div class="runtime-code" id="runtimeCode" aria-live="polite"><span class="runtime-inline-status"><b></b> running</span></div>
+                </div>
+                <div class="header-controls">
+                    <nav>
+                        <a class="tab-btn nav-link active" href="index.html" data-i18n="nav_inicio">Inicio</a>
+                        <a class="tab-btn nav-link" href="descargas.html" data-i18n="nav_descargas">Descargas</a>
+                        <a class="tab-btn nav-link" href="sobremi.html" data-i18n="nav_sobremi">Sobre mí</a>
+                    </nav>
+                    <div class="lang-select" id="langSelect">
+                        <button class="lang-btn" id="langBtn" type="button" aria-haspopup="true" aria-expanded="false">
+                            <span class="mono">ES</span>
+                            <svg class="chev" width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3l3 3 3-3" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </button>
+                        <div class="lang-menu" id="langMenu" role="menu">
+                            <button class="lang-opt active" type="button" data-lang="es" role="menuitem" data-i18n="lang_es">Español</button>
+                            <button class="lang-opt" type="button" data-lang="en" role="menuitem" data-i18n="lang_en">English</button>
+                        </div>
+                    </div>
+                    <!-- Botón de cambio de tema -->
+                    <label id="theme-toggle" class="switch" title="Cambiar tema" data-i18n-title="theme_toggle_title">
+                        <input type="checkbox" aria-label="Cambiar tema">
+                        <span class="slider">
+                            <span class="circle">
+                                <span class="shine shine-1"></span>
+                                <span class="shine shine-2"></span>
+                                <span class="shine shine-3"></span>
+                                <span class="shine shine-4"></span>
+                                <span class="shine shine-5"></span>
+                                <span class="shine shine-6"></span>
+                                <span class="shine shine-7"></span>
+                                <span class="shine shine-8"></span>
+                                <span class="moon"></span>
+                            </span>
+                        </span>
+                    </label>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div class="wrap">
+                <section id="inicio" class="active">
+                    <div class="starfield" aria-hidden="true">
+                        <div id="stars"></div>
+                        <div id="stars2"></div>
+                        <div id="stars3"></div>
+                    </div>
+
+                    <div class="code-atmosphere" aria-hidden="true">
+                        <pre class="code-fragment java-fragment fragment-a"><code><span class="code-line"><span class="code-keyword">public</span> <span class="code-keyword">class</span> <span class="code-class">ApiService</span> {</span><span class="code-line">    <span class="code-keyword">public</span> <span class="code-type">Response</span> <span class="code-method">run</span>() {</span><span class="code-line">        <span class="exec-word">return</span> <span class="code-class">service</span>.<span class="exec-word">execute</span>();</span><span class="code-line">    }</span><span class="code-line">}</span></code></pre>
+                        <pre class="code-fragment python-fragment fragment-b"><code><span class="code-line"><span class="code-keyword">def</span> <span class="code-method">process_data</span>(items):</span><span class="code-line">    <span class="code-keyword">for</span> item <span class="code-keyword">in</span> items:</span><span class="code-line">        <span class="exec-word">result</span> = <span class="code-class">transform</span>(item)</span><span class="code-line">        <span class="code-keyword">yield</span> <span class="exec-word">result</span></span></code></pre>
+                        <pre class="code-fragment java-fragment fragment-c"><code><span class="code-line"><span class="code-keyword">if</span> (user.<span class="code-property">isReady</span>()) {</span><span class="code-line">    <span class="code-class">logger</span>.<span class="code-method">info</span>(<span class="code-string">"building..."</span>);</span><span class="code-line">    <span class="exec-word">deploy</span>(<span class="code-class">app</span>);</span><span class="code-line">}</span></code></pre>
+                        <pre class="code-fragment python-fragment fragment-d"><code><span class="code-line"><span class="code-keyword">async def</span> <span class="code-method">save_project</span>(project):</span><span class="code-line">    <span class="exec-word">await</span> <span class="code-class">database</span>.<span class="code-method">connect</span>()</span><span class="code-line">    <span class="code-keyword">return</span> <span class="code-class">project</span>.<span class="code-method">save</span>()</span></code></pre>
+                        <pre class="code-fragment python-fragment fragment-e"><code><span class="code-line"><span class="code-keyword">try</span>:</span><span class="code-line">    <span class="exec-word">response</span> = <span class="code-method">requests</span>.<span class="code-method">get</span>(url)</span><span class="code-line"><span class="code-keyword">except</span> <span class="code-class">Error</span>:</span><span class="code-line">    <span class="code-method">retry</span>(<span class="code-number">3</span>)</span></code></pre>
+                        <pre class="code-fragment java-fragment fragment-f"><code><span class="code-line"><span class="code-type">List</span>&lt;<span class="code-type">Task</span>&gt; tasks = <span class="code-class">repository</span>.<span class="code-method">findAll</span>();</span><span class="code-line"><span class="code-keyword">for</span> (<span class="code-type">Task</span> task : tasks) {</span><span class="code-line">    <span class="exec-word">task</span>.<span class="code-method">complete</span>();</span><span class="code-line">}</span></code></pre>
+                        <pre class="code-fragment python-fragment fragment-g"><code><span class="code-line"><span class="code-keyword">def</span> <span class="code-method">filter_active</span>(users):</span><span class="code-line">    <span class="exec-word">active</span> = [user <span class="code-keyword">for</span> user <span class="code-keyword">in</span> users</span><span class="code-line">             <span class="code-keyword">if</span> user.<span class="code-property">is_active</span>]</span><span class="code-line">    <span class="code-keyword">return</span> <span class="exec-word">active</span></span></code></pre>
+                    </div>
+
+                    <div class="kicker" data-i18n="hero_kicker">herramientas online · gratis · sin registro</div>
+                    <h1><span id="typingTitle" aria-live="polite">Utilidades rápidas para programar sin pausa</span><span class="cursor" aria-hidden="true"></span></h1>
+                    <p class="lede" data-i18n="hero_lede">Todo corre en tu navegador — nada se envía a ningún servidor. Elige una para abrirla.</p>
+
+                    <div class="search">
+                        <input type="text" id="toolSearch" data-i18n-placeholder="search_placeholder" placeholder="Buscar herramienta... (ej. json, base64, java)" oninput="filterTools(this.value)">
+                    </div>
+
+                    <div class="grid" id="toolsGrid">
+                        <a class="card-link" id="tool-json" data-native data-name="formateador json indentar" href="formateador-json.html" style="view-transition-name:vt-json">
+                            <span class="k" data-i18n="tag_text">Texto</span>
+                            <h3 data-i18n="tool_json_title">Formateador JSON</h3>
+                            <p data-i18n="tool_json_desc">Pega JSON desordenado y lo indenta correctamente.</p>
+                        </a>
+                        <a class="card-link" id="tool-b64" data-native data-name="base64 codificar decodificar" href="base64.html" style="view-transition-name:vt-b64">
+                            <span class="k" data-i18n="tag_text">Texto</span>
+                            <h3 data-i18n="tool_b64_title">Base64</h3>
+                            <p data-i18n="tool_b64_desc">Codifica o decodifica texto en Base64.</p>
+                        </a>
+                        <a class="card-link" id="tool-java" data-native data-name="java interprete ejecutar codigo compilador" href="java-interprete.html" style="view-transition-name:vt-java">
+                            <span class="k" data-i18n="tag_code">Código</span>
+                            <h3 data-i18n="tool_java_title">Mini intérprete de Java</h3>
+                            <p data-i18n="tool_java_desc">Ejecuta un subconjunto básico de Java en el navegador.</p>
+                        </a>
+                        <a class="card-link" id="tool-python" data-native data-name="python interprete ejecutar codigo" href="python-interprete.html" style="view-transition-name:vt-python">
+                            <span class="k" data-i18n="tag_code">Código</span>
+                            <h3 data-i18n="tool_python_title">Intérprete de Python</h3>
+                            <p data-i18n="tool_python_desc">Ejecuta Python real directamente en tu navegador.</p>
+                        </a>
+                        <a class="card-link" id="tool-text-predictor" data-native data-name="texto predecir prediccion palabras sugerencias autocompletar ngram lenguaje" href="predictor-texto.html" style="view-transition-name:vt-text-predictor">
+                            <span class="k" data-i18n="tag_ai">IA</span>
+                            <h3 data-i18n="tool_text_predictor_title">Predictor visual de texto</h3>
+                            <p data-i18n="tool_text_predictor_desc">Explora cómo el contexto cambia la siguiente palabra.</p>
+                        </a>
+                        <a class="card-link" id="tool-neural" data-native data-name="ia inteligencia artificial red neuronal machine learning entrenador puntos tfjs" href="red-neuronal.html" style="view-transition-name:vt-neural">
+                            <span class="k" data-i18n="tag_ai">IA</span>
+                            <h3 data-i18n="tool_neural_title">Entrenador de red neuronal</h3>
+                            <p data-i18n="tool_neural_desc">Entrena un clasificador visual y observa cómo aprende.</p>
+                        </a>
+                    </div>
+                    <p class="empty-msg" id="emptyMsg" data-i18n="empty_msg">No hay ninguna herramienta que coincida con esa búsqueda todavía.</p>
+                </section>
+            </div>
+        </main>
+
+        <footer>
+            <div class="wrap footer-grid">
+                <div>
+                    <div class="brand" style="font-size:16px">print<span>.</span>dev</div>
+                    <p class="foot-tag" data-i18n="footer_tag">Herramientas para programar de forma más sencilla y eficiente, creadas por un desarrollador en constante evolución.</p>
+                </div>
+                <div class="foot-links">
+                    <span class="foot-h" data-i18n="footer_nav_heading">Navegación</span>
+                    <a href="index.html" class="nav-link" data-i18n="nav_inicio">Inicio</a>
+                    <a href="descargas.html" class="nav-link" data-i18n="nav_descargas">Descargas</a>
+                    <a href="sobremi.html" class="nav-link" data-i18n="nav_sobremi">Sobre mí</a>
+                </div>
+                <div class="foot-links">
+                    <span class="foot-h" data-i18n="footer_connect_heading">Conecta</span>
+                    <a href="https://github.com/Rccrawler" target="_blank" rel="noopener">GitHub ↗</a>
+                    <a href="https://www.linkedin.com/in/andrew-es" target="_blank" rel="noopener">LinkedIn ↗</a>
+                </div>
+            </div>
+            <div class="wrap foot-bottom">
+                <span>© 2026 print.dev</span>
+                <span data-i18n="footer_bottom_note">Software útil, código cuidado y mejora constante</span>
+            </div>
+        </footer>
+
+        <script src="js/index.js" defer></script>
+    </body>
+</html>
