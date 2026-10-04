@@ -1,164 +1,26 @@
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <script>document.documentElement.style.background="#11151c";try{if(localStorage.getItem("user_lang")==="en")document.documentElement.classList.add("i18n-loading")}catch(e){}</script>
-        <script>
-            (function() {
-                let theme = 'dark';
-                try {
-                    if (localStorage.getItem('user_theme') === 'light') theme = 'light';
-                } catch {}
-                document.documentElement.setAttribute('data-theme', theme);
-            })();
-        </script>
-        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-        <title data-i18n="title_descargas">Descargas y proyectos | print.dev</title>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="css/styles.css">
-        <script src="js/locales.js" defer></script>
-        <script src="js/i18n.js" defer></script>
-        <script src="js/theme.js" defer></script>
-        <script src="js/fast-navigation.js" defer></script>
-    </head>
-    <body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Descargas</title>
+    <link rel="stylesheet" href="./estilos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest">
+    <!-- Windows 8+ -->
+    <meta name="msapplication-TileColor" content="#2d89ef">
+    <meta name="msapplication-config" content="browserconfig.xml">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PK49GNTRRZ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
-        <header>
-            <div class="wrap">
-                <a class="brand" href="index.html">print<span>.</span>dev</a>
-                <div class="runtime-panel" aria-label="Código del portfolio ejecutándose en el navegador">
-                    <div class="runtime-code" id="runtimeCode" aria-live="polite"><span class="runtime-inline-status"><b></b> running</span></div>
-                </div>
-                <div class="header-controls">
-                    <nav>
-                        <a class="tab-btn nav-link" href="index.html" data-i18n="nav_inicio">Inicio</a>
-                        <a class="tab-btn nav-link active" href="descargas.html" data-i18n="nav_descargas">Descargas</a>
-                        <a class="tab-btn nav-link" href="sobremi.html" data-i18n="nav_sobremi">Sobre mí</a>
-                    </nav>
-                    <div class="lang-select" id="langSelect">
-                        <button class="lang-btn" id="langBtn" type="button" aria-haspopup="true" aria-expanded="false">
-                            <span class="mono">ES</span>
-                            <svg class="chev" width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3l3 3 3-3" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        </button>
-                        <div class="lang-menu" id="langMenu" role="menu">
-                            <button class="lang-opt active" type="button" data-lang="es" role="menuitem" data-i18n="lang_es">Español</button>
-                            <button class="lang-opt" type="button" data-lang="en" role="menuitem" data-i18n="lang_en">English</button>
-                        </div>
-                    </div>
-                    <label id="theme-toggle" class="switch" title="Cambiar tema" data-i18n-title="theme_toggle_title">
-                        <input type="checkbox" aria-label="Cambiar tema" checked>
-                        <span class="slider">
-                            <span class="circle">
-                                <span class="shine shine-1"></span>
-                                <span class="shine shine-2"></span>
-                                <span class="shine shine-3"></span>
-                                <span class="shine shine-4"></span>
-                                <span class="shine shine-5"></span>
-                                <span class="shine shine-6"></span>
-                                <span class="shine shine-7"></span>
-                                <span class="shine shine-8"></span>
-                                <span class="moon"></span>
-                            </span>
-                        </span>
-                    </label>
-                </div>
-            </div>
-        </header>
-
-        <main>
-            <div class="wrap">
-                <section id="descargas" class="active">
-                    <div class="downloads-hero">
-                        <div>
-                            <div class="kicker" data-i18n="descargas_kicker">proyectos · escritorio · juegos</div>
-                            <h1 data-i18n="descargas_title">Proyectos y herramientas para descargar</h1>
-                            <p class="lede" data-i18n="descargas_lede">Aplicaciones de escritorio y juegos que puedes ejecutar en local. Código abierto en GitHub.</p>
-                        </div>
-                        <div class="download-cube" aria-hidden="true">
-                            <div class="cube">
-                                <div style="--x:-1;--y:0"><span style="--i:3"></span><span style="--i:2"></span><span style="--i:1"></span></div>
-                                <div style="--x:0;--y:0"><span style="--i:3"></span><span style="--i:2"></span><span style="--i:1"></span></div>
-                                <div style="--x:1;--y:0"><span style="--i:3"></span><span style="--i:2"></span><span style="--i:1"></span></div>
-                            </div>
-                            <div class="cube">
-                                <div style="--x:-1;--y:0"><span style="--i:3"></span><span style="--i:2"></span><span style="--i:1"></span></div>
-                                <div style="--x:0;--y:0"><span style="--i:3"></span><span style="--i:2"></span><span style="--i:1"></span></div>
-                                <div style="--x:1;--y:0"><span style="--i:3"></span><span style="--i:2"></span><span style="--i:1"></span></div>
-                            </div>
-                            <div class="cube">
-                                <div style="--x:-1;--y:0"><span style="--i:3"></span><span style="--i:2"></span><span style="--i:1"></span></div>
-                                <div style="--x:0;--y:0"><span style="--i:3"></span><span style="--i:2"></span><span style="--i:1"></span></div>
-                                <div style="--x:1;--y:0"><span style="--i:3"></span><span style="--i:2"></span><span style="--i:1"></span></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="list">
-                        <div class="item">
-                            <div>
-                                <h3 data-i18n="project_1_title">Validador de texto en español</h3>
-                                <p data-i18n="project_1_desc">Corrige faltas de ortografía y mejora el orden de las frases sin conexión, directamente en tu equipo.</p>
-                                <span class="tag">Java 17+</span>
-                            </div>
-                            <div class="actions">
-                                <a class="dl" href="https://github.com/Rccrawler/validador.git" target="_blank" rel="noopener" data-i18n="btn_view_github">Ver en GitHub →</a>
-                                <a class="dl zip" href="https://github.com/Rccrawler/validador/archive/refs/heads/main.zip" data-i18n="btn_download_zip">Descargar .zip</a>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div>
-                                <h3 data-i18n="project_2_title">Air Jokey · juego de hockey de aire</h3>
-                                <p data-i18n="project_2_desc">Juego de hockey de aire para escritorio desarrollado en Python con Pygame.</p>
-                                <span class="tag">Python · Pygame</span>
-                            </div>
-                            <div class="actions">
-                                <a class="dl" href="https://github.com/Rccrawler/Jokey-pygame.git" target="_blank" rel="noopener" data-i18n="btn_view_github">Ver en GitHub →</a>
-                                <a class="dl zip" href="https://github.com/Rccrawler/Jokey-pygame/archive/refs/heads/main.zip" data-i18n="btn_download_zip">Descargar .zip</a>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div>
-                                <h3 data-i18n="project_3_title">Null · mascota virtual de IA</h3>
-                                <p data-i18n="project_3_desc">Mascota de IA que conversa por texto, expresa emociones y cambia de humor según cómo interactúes con ella.</p>
-                                <span class="tag">Python · Java</span>
-                            </div>
-                            <div class="actions">
-                                <a class="dl" href="https://github.com/Rccrawler/Null-mascota.git" target="_blank" rel="noopener" data-i18n="btn_view_github">Ver en GitHub →</a>
-                                <a class="dl zip" href="https://github.com/Rccrawler/Null-mascota/archive/refs/heads/main.zip" data-i18n="btn_download_zip">Descargar .zip</a>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </div>
-        </main>
-
-        <footer>
-            <div class="wrap footer-grid">
-                <div>
-                    <div class="brand" style="font-size:16px">print<span>.</span>dev</div>
-                    <p class="foot-tag" data-i18n="footer_tag">Herramientas para programar de forma más sencilla y eficiente, creadas por un desarrollador en constante evolución.</p>
-                </div>
-                <div class="foot-links">
-                    <span class="foot-h" data-i18n="footer_nav_heading">Navegación</span>
-                    <a href="index.html" class="nav-link" data-i18n="nav_inicio">Inicio</a>
-                    <a href="descargas.html" class="nav-link" data-i18n="nav_descargas">Descargas</a>
-                    <a href="sobremi.html" class="nav-link" data-i18n="nav_sobremi">Sobre mí</a>
-                </div>
-                <div class="foot-links">
-                    <span class="foot-h" data-i18n="footer_connect_heading">Conecta</span>
-                    <a href="https://github.com/Rccrawler" target="_blank" rel="noopener">GitHub ↗</a>
-                    <a href="https://www.linkedin.com/in/andrew-es" target="_blank" rel="noopener">LinkedIn ↗</a>
-                </div>
-            </div>
-            <div class="wrap foot-bottom">
-                <span>© 2026 print.dev</span>
-                <span data-i18n="footer_bottom_note">Software útil, código cuidado y mejora constante</span>
-            </div>
-        </footer>
-
-        <script src="js/index.js"></script>
-    </body>
-</html>
+        gtag('config', 'G-PK49GNTRRZ');
+    </script>

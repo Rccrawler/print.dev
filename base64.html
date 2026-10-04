@@ -1,55 +1,27 @@
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <script>document.documentElement.style.background="#11151c";try{if(localStorage.getItem("user_lang")==="en")document.documentElement.classList.add("i18n-loading")}catch(e){}</script>
-        <script>
-            (function() {
-                let theme = 'dark';
-                try {
-                    if (localStorage.getItem('user_theme') === 'light') theme = 'light';
-                } catch {}
-                document.documentElement.setAttribute('data-theme', theme);
-            })();
-        </script>
-        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-        <title data-i18n="title_b64">Codificador y decodificador Base64 online gratis | print.dev</title>
-        <meta name="description" content="Codifica o decodifica texto en Base64 al instante, sin registro. Todo se procesa en tu navegador.">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="css/styles.css">
-        <script src="js/locales.js" defer></script>
-        <script src="js/i18n.js" defer></script>
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversor Base64 Online</title>
+    <link rel="stylesheet" href="./estilos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest">
+    <!-- Windows 8+ -->
+    <meta name="msapplication-TileColor" content="#2d89ef">
+    <meta name="msapplication-config" content="browserconfig.xml">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PK49GNTRRZ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
-    <body class="tool-page">
-
-        <main>
-            <div class="wrap">
-                <a class="back" href="index.html" data-i18n="back_to_tools">← Volver a todas las herramientas</a>
-
-                <div class="card" style="view-transition-name:vt-b64">
-                    <h1 style="font-size:26px;margin-bottom:6px" data-i18n="tool_b64_h1">Base64</h1>
-                    <p style="color:var(--text-dim);font-size:14px;margin-bottom:16px" data-i18n="tool_b64_sub">Codifica o decodifica texto en Base64. Nada se envía a ningún servidor.</p>
-                    <textarea id="b64In" data-i18n-placeholder="b64_placeholder" placeholder="Texto o cadena Base64..."></textarea>
-                    <div class="row">
-                        <button class="btn primary" onclick="b64('encode')" data-i18n="btn_encode">Codificar</button>
-                        <button class="btn" onclick="b64('decode')" data-i18n="btn_decode">Decodificar</button>
-                    </div>
-                    <div class="out" id="b64Out"></div>
-                </div>
-
-                <article>
-                    <h2 data-i18n="b64_faq1_q">¿Qué es Base64?</h2>
-                    <p data-i18n="b64_faq1_a">Base64 es una forma de representar datos binarios (como imágenes o archivos) usando solo texto legible, para poder incluirlos en sitios donde no se admiten datos binarios directamente, como una URL, un JSON o un correo electrónico.</p>
-                    <h2 data-i18n="b64_faq2_q">¿Cuándo se usa?</h2>
-                    <p data-i18n="b64_faq2_a">Es muy común al trabajar con tokens de autenticación, incrustar pequeñas imágenes directamente en el código, o depurar datos que llegan codificados desde una API.</p>
-                </article>
-            </div>
-        </main>
-
-        <script src="js/base64.js"></script>
-    </body>
-</html>
+        gtag('config', 'G-PK49GNTRRZ');
+    </script>
+</head>
