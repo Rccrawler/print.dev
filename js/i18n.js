@@ -63,6 +63,20 @@
       }
     });
 
+    document.querySelectorAll("[data-i18n-aria-label]").forEach((el) => {
+      const key = el.getAttribute("data-i18n-aria-label");
+      if (langData[key] !== undefined) {
+        el.setAttribute("aria-label", langData[key]);
+      }
+    });
+
+    document.querySelectorAll("[data-i18n-alt]").forEach((el) => {
+      const key = el.getAttribute("data-i18n-alt");
+      if (langData[key] !== undefined) {
+        el.setAttribute("alt", langData[key]);
+      }
+    });
+
     // 5. Traducir el título de la página (<title data-i18n="...">)
     const titleEl = document.querySelector("title[data-i18n]");
     if (titleEl) {

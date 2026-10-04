@@ -78,7 +78,7 @@
             </div>
         </header>
 
-        <main>
+        <main class="downloads-page">
             <div class="wrap">
                 <section id="descargas" class="active">
                     <div class="downloads-hero">
@@ -106,40 +106,125 @@
                         </div>
                     </div>
 
+                    <div class="downloads-overview">
+                        <div class="downloads-overview-copy">
+                            <span class="overview-index" data-i18n="downloads_overview_index">SELECCIÓN 2026</span>
+                            <h2 data-i18n="downloads_overview_title">Hechos para probarlos, no solo para verlos.</h2>
+                            <p data-i18n="downloads_overview_desc">Explora cada proyecto, mira sus capturas y descarga el código para ejecutarlo en tu equipo.</p>
+                        </div>
+                        <div class="overview-stats" aria-label="Resumen de proyectos" data-i18n-aria-label="downloads_overview_stats">
+                            <div class="overview-stat"><strong>03</strong><span data-i18n="downloads_stat_projects">proyectos</span></div>
+                            <div class="overview-stat"><strong>100%</strong><span data-i18n="downloads_stat_open_source">código abierto</span></div>
+                            <div class="overview-stat"><strong>↗</strong><span data-i18n="downloads_stat_local">para usar en local</span></div>
+                        </div>
+                        <span class="overview-watermark" aria-hidden="true">/03</span>
+                    </div>
+
                     <div class="list">
-                        <div class="item">
-                            <div>
+                        <article class="item">
+                            <div class="project-gallery" data-gallery aria-label="Galería del validador" data-i18n-aria-label="project_1_gallery">
+                                <figure class="gallery-slide">
+                                    <button class="gallery-open" type="button" data-gallery-open aria-label="Ampliar imagen" data-i18n-aria-label="gallery_zoom">
+                                        <img src="img/downloads/validador-01.png" alt="Validador de texto mostrando errores detectados" data-i18n-alt="project_1_image_1_alt" loading="lazy" decoding="async">
+                                    </button>
+                                    <figcaption data-i18n="project_1_image_1_caption">Análisis de errores</figcaption>
+                                </figure>
+                                <figure class="gallery-slide" hidden>
+                                    <button class="gallery-open" type="button" data-gallery-open aria-label="Ampliar imagen" data-i18n-aria-label="gallery_zoom">
+                                        <img src="img/downloads/validador-02.png" alt="Validador de texto después de aplicar correcciones" data-i18n-alt="project_1_image_2_alt" loading="lazy" decoding="async">
+                                    </button>
+                                    <figcaption data-i18n="project_1_image_2_caption">Texto corregido</figcaption>
+                                </figure>
+                                <span class="gallery-count" data-gallery-count aria-live="polite">01 / 02</span>
+                                <div class="gallery-controls">
+                                    <button class="gallery-arrow gallery-prev" type="button" data-gallery-prev aria-label="Imagen anterior" data-i18n-aria-label="gallery_prev" hidden>
+                                        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m12.5 4.5-5.5 5.5 5.5 5.5"/></svg>
+                                    </button>
+                                    <button class="gallery-arrow gallery-next" type="button" data-gallery-next aria-label="Imagen siguiente" data-i18n-aria-label="gallery_next" hidden>
+                                        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m7.5 4.5 5.5 5.5-5.5 5.5"/></svg>
+                                    </button>
+                                    <div class="gallery-dots" data-gallery-dots aria-label="Elegir imagen" data-i18n-aria-label="gallery_choose_image"></div>
+                                </div>
+                            </div>
+                            <div class="download-content">
+                                <span class="project-number" data-i18n="project_1_kind">01 / ESCRITORIO</span>
                                 <h3 data-i18n="project_1_title">Validador de texto en español</h3>
                                 <p data-i18n="project_1_desc">Corrige faltas de ortografía y mejora el orden de las frases sin conexión, directamente en tu equipo.</p>
                                 <span class="tag">Java 17+</span>
+                                <div class="actions">
+                                    <a class="dl" href="https://github.com/Rccrawler/validador.git" target="_blank" rel="noopener" data-i18n="btn_view_github">Ver en GitHub →</a>
+                                    <a class="dl zip" href="https://github.com/Rccrawler/validador/archive/refs/heads/main.zip" data-i18n="btn_download_zip">Descargar .zip</a>
+                                </div>
                             </div>
-                            <div class="actions">
-                                <a class="dl" href="https://github.com/Rccrawler/validador.git" target="_blank" rel="noopener" data-i18n="btn_view_github">Ver en GitHub →</a>
-                                <a class="dl zip" href="https://github.com/Rccrawler/validador/archive/refs/heads/main.zip" data-i18n="btn_download_zip">Descargar .zip</a>
+                        </article>
+                        <article class="item">
+                            <div class="project-gallery game-gallery" data-gallery aria-label="Galería de Air Jokey" data-i18n-aria-label="project_2_gallery">
+                                <figure class="gallery-slide">
+                                    <button class="gallery-open" type="button" data-gallery-open aria-label="Ampliar imagen" data-i18n-aria-label="gallery_zoom">
+                                        <img src="img/downloads/air-jokey.png" alt="Mesa de hockey de aire del juego Air Jokey" data-i18n-alt="project_2_image_1_alt" loading="lazy" decoding="async">
+                                    </button>
+                                    <figcaption data-i18n="project_2_image_1_caption">La mesa de juego</figcaption>
+                                </figure>
+                                <span class="gallery-count" data-gallery-count aria-live="polite">01 / 01</span>
                             </div>
-                        </div>
-                        <div class="item">
-                            <div>
+                            <div class="download-content">
+                                <span class="project-number" data-i18n="project_2_kind">02 / JUEGO</span>
                                 <h3 data-i18n="project_2_title">Air Jokey · juego de hockey de aire</h3>
                                 <p data-i18n="project_2_desc">Juego de hockey de aire para escritorio desarrollado en Python con Pygame.</p>
                                 <span class="tag">Python · Pygame</span>
+                                <div class="actions">
+                                    <a class="dl" href="https://github.com/Rccrawler/Jokey-pygame.git" target="_blank" rel="noopener" data-i18n="btn_view_github">Ver en GitHub →</a>
+                                    <a class="dl zip" href="https://github.com/Rccrawler/Jokey-pygame/archive/refs/heads/main.zip" data-i18n="btn_download_zip">Descargar .zip</a>
+                                </div>
                             </div>
-                            <div class="actions">
-                                <a class="dl" href="https://github.com/Rccrawler/Jokey-pygame.git" target="_blank" rel="noopener" data-i18n="btn_view_github">Ver en GitHub →</a>
-                                <a class="dl zip" href="https://github.com/Rccrawler/Jokey-pygame/archive/refs/heads/main.zip" data-i18n="btn_download_zip">Descargar .zip</a>
+                        </article>
+                        <article class="item">
+                            <div class="project-gallery null-gallery" data-gallery aria-label="Galería de Null" data-i18n-aria-label="project_3_gallery">
+                                <figure class="gallery-slide">
+                                    <button class="gallery-open" type="button" data-gallery-open aria-label="Ampliar imagen" data-i18n-aria-label="gallery_zoom">
+                                        <img src="img/downloads/null-normal.png" alt="Null en su estado normal" data-i18n-alt="project_3_image_1_alt" loading="lazy" decoding="async">
+                                    </button>
+                                    <figcaption data-i18n="project_3_image_1_caption">Estado normal</figcaption>
+                                </figure>
+                                <figure class="gallery-slide" hidden>
+                                    <button class="gallery-open" type="button" data-gallery-open aria-label="Ampliar imagen" data-i18n-aria-label="gallery_zoom">
+                                        <img src="img/downloads/null-contento.png" alt="Null mostrando una expresión feliz" data-i18n-alt="project_3_image_2_alt" loading="lazy" decoding="async">
+                                    </button>
+                                    <figcaption data-i18n="project_3_image_2_caption">Estado alegre</figcaption>
+                                </figure>
+                                <figure class="gallery-slide" hidden>
+                                    <button class="gallery-open" type="button" data-gallery-open aria-label="Ampliar imagen" data-i18n-aria-label="gallery_zoom">
+                                        <img src="img/downloads/null-asustado.png" alt="Null mostrando una expresión asustada" data-i18n-alt="project_3_image_3_alt" loading="lazy" decoding="async">
+                                    </button>
+                                    <figcaption data-i18n="project_3_image_3_caption">Estado asustado</figcaption>
+                                </figure>
+                                <span class="gallery-count" data-gallery-count aria-live="polite">01 / 03</span>
+                                <div class="gallery-controls">
+                                    <button class="gallery-arrow gallery-prev" type="button" data-gallery-prev aria-label="Imagen anterior" data-i18n-aria-label="gallery_prev" hidden>
+                                        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m12.5 4.5-5.5 5.5 5.5 5.5"/></svg>
+                                    </button>
+                                    <button class="gallery-arrow gallery-next" type="button" data-gallery-next aria-label="Imagen siguiente" data-i18n-aria-label="gallery_next" hidden>
+                                        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m7.5 4.5 5.5 5.5-5.5 5.5"/></svg>
+                                    </button>
+                                    <div class="gallery-dots" data-gallery-dots aria-label="Elegir imagen" data-i18n-aria-label="gallery_choose_image"></div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="item">
-                            <div>
+                            <div class="download-content">
+                                <span class="project-number" data-i18n="project_3_kind">03 / IA</span>
                                 <h3 data-i18n="project_3_title">Null · mascota virtual de IA</h3>
                                 <p data-i18n="project_3_desc">Mascota de IA que conversa por texto, expresa emociones y cambia de humor según cómo interactúes con ella.</p>
                                 <span class="tag">Python · Java</span>
+                                <div class="actions">
+                                    <a class="dl" href="https://github.com/Rccrawler/Null-mascota.git" target="_blank" rel="noopener" data-i18n="btn_view_github">Ver en GitHub →</a>
+                                    <a class="dl zip" href="https://github.com/Rccrawler/Null-mascota/archive/refs/heads/main.zip" data-i18n="btn_download_zip">Descargar .zip</a>
+                                </div>
                             </div>
-                            <div class="actions">
-                                <a class="dl" href="https://github.com/Rccrawler/Null-mascota.git" target="_blank" rel="noopener" data-i18n="btn_view_github">Ver en GitHub →</a>
-                                <a class="dl zip" href="https://github.com/Rccrawler/Null-mascota/archive/refs/heads/main.zip" data-i18n="btn_download_zip">Descargar .zip</a>
-                            </div>
-                        </div>
+                        </article>
+                    </div>
+                    <div class="downloads-endcap">
+                        <span class="endcap-mark" aria-hidden="true">&lt;/&gt;</span>
+                        <p data-i18n="downloads_endcap_text">¿Quieres ver cómo están hechos? El código está disponible para explorar en GitHub.</p>
+                        <a href="https://github.com/Rccrawler" target="_blank" rel="noopener" data-i18n="downloads_endcap_link">Explorar GitHub ↗</a>
                     </div>
                 </section>
             </div>
@@ -170,5 +255,6 @@
         </footer>
 
         <script src="js/index.js"></script>
+        <script src="js/downloads.js" defer></script>
     </body>
 </html>
