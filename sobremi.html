@@ -1,26 +1,180 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sobre Mí</title>
-    <link rel="stylesheet" href="./estilos.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-    <link rel="manifest" href="site.webmanifest">
-    <!-- Windows 8+ -->
-    <meta name="msapplication-TileColor" content="#2d89ef">
-    <meta name="msapplication-config" content="browserconfig.xml">
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PK49GNTRRZ"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
+    <head>
+        <meta charset="UTF-8">
+        <script>document.documentElement.style.background="#11151c";try{if(localStorage.getItem("user_lang")==="en")document.documentElement.classList.add("i18n-loading")}catch(e){}</script>
+        <script>
+            (function() {
+                let theme = 'dark';
+                try {
+                    if (localStorage.getItem('user_theme') === 'light') theme = 'light';
+                } catch {}
+                document.documentElement.setAttribute('data-theme', theme);
+            })();
+        </script>
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+        <title data-i18n="title_sobremi">Sobre mí | print.dev</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="css/styles.css">
+        <script src="js/locales.js" defer></script>
+        <script src="js/i18n.js" defer></script>
+        <script src="js/theme.js" defer></script>
+        <script src="js/fast-navigation.js" defer></script>
 
-        gtag('config', 'G-PK49GNTRRZ');
-    </script>
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-PK49GNTRRZ"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-PK49GNTRRZ');
+        </script>
+    </head>
+    <body>
+
+        <header>
+            <div class="wrap">
+                <a class="brand" href="index.html">print<span>.</span>dev</a>
+                <div class="runtime-panel" aria-label="Código del portfolio ejecutándose en el navegador">
+                    <div class="runtime-code" id="runtimeCode" aria-live="polite"><span class="runtime-inline-status"><b></b> running</span></div>
+                </div>
+                <div class="header-controls">
+                    <nav>
+                        <a class="tab-btn nav-link" href="index.html" data-i18n="nav_inicio">Inicio</a>
+                        <a class="tab-btn nav-link" href="descargas.html" data-i18n="nav_descargas">Descargas</a>
+                        <a class="tab-btn nav-link active" href="sobremi.html" data-i18n="nav_sobremi">Sobre mí</a>
+                    </nav>
+                    <div class="lang-select" id="langSelect">
+                        <button class="lang-btn" id="langBtn" type="button" aria-haspopup="true" aria-expanded="false">
+                            <span class="mono">ES</span>
+                            <svg class="chev" width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3l3 3 3-3" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </button>
+                        <div class="lang-menu" id="langMenu" role="menu">
+                            <button class="lang-opt active" type="button" data-lang="es" role="menuitem" data-i18n="lang_es">Español</button>
+                            <button class="lang-opt" type="button" data-lang="en" role="menuitem" data-i18n="lang_en">English</button>
+                        </div>
+                    </div>
+                    <label id="theme-toggle" class="switch" title="Cambiar tema" data-i18n-title="theme_toggle_title">
+                        <input type="checkbox" aria-label="Cambiar tema" checked>
+                        <span class="slider">
+                            <span class="circle">
+                                <span class="shine shine-1"></span>
+                                <span class="shine shine-2"></span>
+                                <span class="shine shine-3"></span>
+                                <span class="shine shine-4"></span>
+                                <span class="shine shine-5"></span>
+                                <span class="shine shine-6"></span>
+                                <span class="shine shine-7"></span>
+                                <span class="shine shine-8"></span>
+                                <span class="moon"></span>
+                            </span>
+                        </span>
+                    </label>
+                </div>
+            </div>
+        </header>
+
+        <main>
+        <div class="wrap">
+            <section id="sobremi" class="active">
+                <div class="blueprint-notes" aria-hidden="true">
+                    <span class="blueprint-id">PROFILE-01 / 2026</span>
+                    <span class="blueprint-axis">x 00 ─────────────── 100</span>
+                    <span class="blueprint-build">DAM / BACKEND / BUILD_READY</span>
+                </div>
+                <div class="about-intro">
+                    <div class="about-copy">
+                        <div class="kicker"><span class="status-dot"></span> <span data-i18n="about_kicker">perfil / disponible para prácticas</span></div>
+                        <h1 data-i18n="about_h1">Construyo soluciones con sentido, seriedad y responsavilidad.</h1>
+                        <p class="lede" data-i18n="about_lede">Soy Andrew, desarrollador junior especializado en Java y Python. Pero tambien soy full stack developer.</p>
+                        <div class="about-actions">
+                            <a class="primary-action" href="https://github.com/Rccrawler" target="_blank" rel="noopener"><span data-i18n="about_btn_github">Ver mi GitHub</span> <span>↗</span></a>
+                            <a class="text-action" href="https://www.linkedin.com/in/andrew-es" target="_blank" rel="noopener"><span data-i18n="about_btn_linkedin">LinkedIn</span> <span>↗</span></a>
+                        </div>
+                    </div>
+
+                    <div class="profile-terminal" aria-label="Presentación de Andrew en formato terminal">
+                        <div class="terminal-topbar"><span></span><span></span><span></span><code>andrew@portfolio:~</code></div>
+                        <div class="terminal-body">
+                            <p><b>const</b> developer = {</p>
+                            <p class="indent"><i>name</i>: <em>'Andrew'</em>,</p>
+                            <p class="indent"><i>focus</i>: <em>'backend + apps + automation'</em>,</p>
+                            <p class="indent"><i>status</i>: <em>'ready_to_build'</em></p>
+                            <p>};<span class="terminal-cursor"></span></p>
+                        </div>
+                        <div class="pixel-avatar" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+                    </div>
+                </div>
+
+                <div class="about-layout">
+                    <aside class="about-sidebar">
+                        <div class="side-label" data-i18n="sidebar_label">// ficha técnica</div>
+                        <dl class="profile-facts">
+                            <div><dt data-i18n="fact_education_dt">formación</dt><dd data-i18n="fact_education_dd">Grado Superior DAM</dd></div>
+                            <div><dt data-i18n="fact_specialty_dt">especialidad</dt><dd data-i18n="fact_specialty_dd">Java & Python</dd></div>
+                            <div><dt data-i18n="fact_location_dt">ubicación</dt><dd data-i18n="fact_location_dd">España · remoto</dd></div>
+                            <div><dt data-i18n="fact_experience_dt">experiencia</dt><dd data-i18n="fact_experience_dd">12+ proyectos</dd></div>
+                        </dl>
+                        <div class="availability"><span class="status-dot"></span><span data-i18n="about_availability">Abierto a oportunidades <br> &nbsp;&nbsp; laborales</span></div>
+                    </aside>
+
+                    <div class="about-content">
+                        <div class="content-label" data-i18n="section_01_label">01 / sobre mí</div>
+                        <p data-i18n="about_p1">Empecé a programar durante el Grado Medio y desde entonces he seguido construyendo, mejorando cosas. Especializado en Desarrollo de Aplicaciones Multiplataforma, con especial interés en crear servicios robustos y herramientas que la gente pueda usar de verdad.</p>
+                        <p data-i18n="about_p2">Me gusta entender bien el problema antes de escribir la primera línea de código: diseñar una solución clara, probarla y dejarla mejor documentada de lo que la encontré.</p>
+                        <p data-i18n="about_p3">Y buscando siempre la escelencia en el producto final.</p>
+
+                        <div class="about-stats">
+                            <div><strong>03</strong><span data-i18n="stat_tools_label">herramientas publicadas</span></div>
+                            <div><strong>12+</strong><span data-i18n="stat_projects_label">proyectos completados</span></div>
+                            <div><strong>∞</strong><span data-i18n="stat_desire_label">ganas de segir superandome</span></div>
+                        </div>
+
+                        <div class="content-label tech-label" data-i18n="section_02_label">02 / stack actual</div>
+                        <div class="stack-grid">
+                            <span><b>JAVA</b><small>Sockets · Threads</small></span>
+                            <span><b>PYTHON</b><small data-i18n="stack_python_sub">Automatización · APIs</small></span>
+                            <span><b data-i18n="stack_data_label">DATOS</b><small>SQL · PostgreSQL</small></span>
+                            <span><b>WORKFLOW</b><small>Git · Docker · REST</small></span>
+                            <span><b>CLOUD</b><small>AWS · Cloudflare</small></span>
+                            <span><b>Frameworks</b><small>Bootstrap · Flutter · Express · NestJS · React</small></span>
+                            <span><b>Operating Systems</b><small>Linux · Windows</small></span>
+                            <span><b>Hardware</b><small>raspberry · Arduino · ESP32</small></span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        </main>
+
+        <footer>
+            <div class="wrap footer-grid">
+                <div>
+                    <div class="brand" style="font-size:16px">print<span>.</span>dev</div>
+                    <p class="foot-tag" data-i18n="footer_tag">Herramientas para programar de forma más sencilla y eficiente, creadas por un desarrollador en constante evolución.</p>
+                </div>
+                <div class="foot-links">
+                    <span class="foot-h" data-i18n="footer_nav_heading">Navegación</span>
+                    <a href="index.html" class="nav-link" data-i18n="nav_inicio">Inicio</a>
+                    <a href="descargas.html" class="nav-link" data-i18n="nav_descargas">Descargas</a>
+                    <a href="sobremi.html" class="nav-link" data-i18n="nav_sobremi">Sobre mí</a>
+                </div>
+                <div class="foot-links">
+                    <span class="foot-h" data-i18n="footer_connect_heading">Conecta</span>
+                    <a href="https://github.com/Rccrawler" target="_blank" rel="noopener">GitHub ↗</a>
+                    <a href="https://www.linkedin.com/in/andrew-es" target="_blank" rel="noopener">LinkedIn ↗</a>
+                </div>
+            </div>
+            <div class="wrap foot-bottom">
+                <span>© 2026 print.dev</span>
+                <span data-i18n="footer_bottom_note">Software útil, código cuidado y mejora constante</span>
+            </div>
+        </footer>
+
+        <script src="js/index.js"></script>
+    </body>
+</html>

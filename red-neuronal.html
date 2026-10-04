@@ -1,26 +1,105 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Red Neuronal Online</title>
-    <link rel="stylesheet" href="./estilos.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-    <link rel="manifest" href="site.webmanifest">
-    <!-- Windows 8+ -->
-    <meta name="msapplication-TileColor" content="#2d89ef">
-    <meta name="msapplication-config" content="browserconfig.xml">
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PK49GNTRRZ"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
+    <head>
+        <meta charset="UTF-8">
+        <script>document.documentElement.style.background="#11151c";try{if(localStorage.getItem("user_lang")==="en")document.documentElement.classList.add("i18n-loading")}catch(e){}</script>
+        <script>
+            (function() {
+                let theme = 'dark';
+                try {
+                    if (localStorage.getItem('user_theme') === 'light') theme = 'light';
+                } catch {}
+                document.documentElement.setAttribute('data-theme', theme);
+            })();
+        </script>
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+        <title data-i18n="title_neural">Entrenador visual de redes neuronales | print.dev</title>
+        <meta name="description" content="Entrena una pequeña red neuronal en tu navegador y visualiza en tiempo real su frontera de decisión.">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="css/styles.css">
+        <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js" defer></script>
+        <script src="js/locales.js" defer></script>
+        <script src="js/i18n.js" defer></script>
 
-        gtag('config', 'G-PK49GNTRRZ');
-    </script>
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-PK49GNTRRZ"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-PK49GNTRRZ');
+        </script>
+    </head>
+
+    <body class="tool-page neural-page">
+        <main>
+            <div class="wrap">
+                <a class="back" href="index.html" data-i18n="back_to_tools">← Volver a todas las herramientas</a>
+
+                <div class="card neural-lab" style="view-transition-name:vt-neural">
+                    <div class="neural-heading">
+                        <div>
+                            <h1 data-i18n="tool_neural_h1">Entrenador visual de red neuronal</h1>
+                            <p data-i18n="tool_neural_sub">Entrena un clasificador pequeño en tu navegador y observa cómo cambia su frontera de decisión. Los datos no salen de tu dispositivo.</p>
+                        </div>
+                        <span class="neural-engine" id="neuralEngine">TensorFlow.js</span>
+                    </div>
+
+                    <div class="neural-toolbar" aria-label="Controles de entrenamiento">
+                        <button class="btn neural-class-red" id="selectRed" type="button" aria-pressed="true" data-i18n="neural_class_red">Clase coral</button>
+                        <button class="btn neural-class-blue" id="selectBlue" type="button" aria-pressed="false" data-i18n="neural_class_blue">Clase azul</button>
+                        <span class="neural-spacer"></span>
+                        <button class="btn primary" id="trainNetwork" type="button" disabled data-i18n="neural_train">Entrenar</button>
+                        <button class="btn" id="randomizePoints" type="button" disabled data-i18n="neural_randomize">Nuevo conjunto</button>
+                        <button class="btn" id="clearPoints" type="button" disabled data-i18n="neural_clear">Vaciar puntos</button>
+                    </div>
+
+                    <div class="neural-workspace">
+                        <div class="neural-plot">
+                            <div class="neural-panel-label">
+                                <span data-i18n="tool_neural_h1">Entrenador visual de red neuronal</span>
+                                <span class="neural-legend">
+                                    <span><i class="neural-dot red"></i><span id="redCount">0</span></span>
+                                    <span><i class="neural-dot blue"></i><span id="blueCount">0</span></span>
+                                </span>
+                            </div>
+                            <div class="neural-canvas-frame">
+                                <canvas id="decisionCanvas" aria-label="Mapa de decisión de las dos clases. Haz clic para añadir un punto de la clase seleccionada." role="img"></canvas>
+                            </div>
+                            <p class="neural-status" id="neuralStatus" aria-live="polite">Cargando TensorFlow.js...</p>
+                        </div>
+
+                        <aside class="neural-side">
+                            <div class="neural-metric">
+                                <span data-i18n="neural_epoch">Época</span>
+                                <strong id="epochValue">0</strong>
+                            </div>
+                            <div class="neural-metric">
+                                <span data-i18n="neural_loss">Pérdida</span>
+                                <strong id="lossValue">—</strong>
+                            </div>
+                            <div>
+                                <div class="neural-panel-label"><span data-i18n="neural_loss">Pérdida</span></div>
+                                <canvas id="lossCanvas" aria-label="Gráfica de pérdida del entrenamiento" role="img"></canvas>
+                            </div>
+                            <p class="neural-side-note" data-i18n="neural_side_note">Cada clic añade un punto. Elige su clase y observa cómo la red adapta la frontera.</p>
+                        </aside>
+                    </div>
+                </div>
+
+                <article>
+                    <h2 data-i18n="neural_faq1_q">¿Qué está aprendiendo la red?</h2>
+                    <p data-i18n="neural_faq1_a">Una red neuronal densa de dos capas ocultas aprende a asignar cada punto del plano a una de dos clases. El color del fondo representa su probabilidad estimada; la zona de transición es la frontera de decisión.</p>
+                    <h2 data-i18n="neural_faq2_q">¿Los datos se envían a algún servidor?</h2>
+                    <p data-i18n="neural_faq2_a">No. El modelo y los puntos se procesan en este navegador con TensorFlow.js. Usa WebGL cuando está disponible y recurre a otro backend compatible si no lo está. La librería se carga desde un CDN.</p>
+                </article>
+            </div>
+        </main>
+
+        <script src="js/red-neuronal.js"></script>
+    </body>
+</html>

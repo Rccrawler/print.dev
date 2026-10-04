@@ -1,26 +1,198 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Predictor de Texto Online</title>
-    <link rel="stylesheet" href="./estilos.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-    <link rel="manifest" href="site.webmanifest">
-    <!-- Windows 8+ -->
-    <meta name="msapplication-TileColor" content="#2d89ef">
-    <meta name="msapplication-config" content="browserconfig.xml">
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PK49GNTRRZ"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
+    <head>
+        <meta charset="UTF-8">
+        <script>document.documentElement.style.background="#11151c";try{if(localStorage.getItem("user_lang")==="en")document.documentElement.classList.add("i18n-loading")}catch(e){}</script>
+        <script>
+            (function() {
+                let theme = 'dark';
+                try {
+                    if (localStorage.getItem('user_theme') === 'light') theme = 'light';
+                } catch {}
+                document.documentElement.setAttribute('data-theme', theme);
+            })();
+        </script>
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+        <title data-i18n="title_text_predictor">Predictor visual de texto online | print.dev</title>
+        <meta name="description" content="Prueba un predictor local de la siguiente palabra y observa cómo influye el contexto.">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="css/styles.css">
+        <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js" defer></script>
+        <script src="js/locales.js" defer></script>
+        <script src="js/i18n.js" defer></script>
 
-        gtag('config', 'G-PK49GNTRRZ');
-    </script>
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-PK49GNTRRZ"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-PK49GNTRRZ');
+        </script>
+    </head>
+
+    <body class="tool-page text-predictor-page">
+        <main>
+            <div class="wrap">
+                <a class="back" href="index.html" data-i18n="back_to_tools">← Volver a todas las herramientas</a>
+
+                <div class="card text-predictor-lab" style="view-transition-name:vt-text-predictor">
+                    <div class="predictor-heading">
+                        <div>
+                            <h1 data-i18n="text_predictor_h1">Predictor visual de texto</h1>
+                            <p data-i18n="text_predictor_sub">Escribe una frase y compara qué palabra viene después según el contexto. El modelo n-gram se entrena aquí mismo con el corpus editable.</p>
+                        </div>
+                        <span class="predictor-badge" data-i18n="text_predictor_model">MODELO N-GRAM · LOCAL</span>
+                    </div>
+
+                    <div class="predictor-workspace">
+                        <div class="predictor-compose">
+                            <div class="predictor-section-label">
+                                <label for="textPrompt" data-i18n="text_predictor_input">Tu texto</label>
+                                <div class="predictor-context-controls" role="group" aria-label="Tamaño del contexto">
+                                    <button type="button" data-context="1" aria-pressed="false">1</button>
+                                    <button type="button" data-context="2" aria-pressed="false">2</button>
+                                    <button type="button" data-context="3" aria-pressed="true">3</button>
+                                </div>
+                            </div>
+                            <textarea class="predictor-input" id="textPrompt" rows="3" data-i18n-placeholder="text_predictor_placeholder" placeholder="Escribe una frase para continuar..."></textarea>
+
+                            <div class="predictor-flow" id="tokenFlow" aria-label="Contexto de la frase"></div>
+
+                            <div class="predictor-preview">
+                                <span class="predictor-preview-label" data-i18n="text_predictor_preview">Continuación más probable</span>
+                                <p class="predictor-preview-text" id="completionPreview"></p>
+                            </div>
+
+                            <details class="predictor-corpus">
+                                <summary data-i18n="text_predictor_corpus_title">Corpus de entrenamiento</summary>
+                                <label for="trainingCorpus" data-i18n="text_predictor_corpus_label">Texto que aprende el modelo</label>
+                                <textarea id="trainingCorpus" spellcheck="true"></textarea>
+                                <small data-i18n="text_predictor_corpus_help">Edita o pega texto propio y vuelve a entrenar. El procesamiento es local.</small>
+                                <div class="row">
+                                    <button class="btn" id="resetCorpus" type="button" data-i18n="text_predictor_reset">Restaurar ejemplo</button>
+                                </div>
+                            </details>
+                        </div>
+
+                        <aside class="predictor-results">
+                            <div class="predictor-section-label">
+                                <span data-i18n="text_predictor_suggestions">Otras continuaciones</span>
+                                <span id="matchedOrder">3 palabras</span>
+                            </div>
+                            <p class="predictor-match" id="matchStatus" aria-live="polite"></p>
+                            <div class="predictor-suggestions" id="predictionList" aria-live="polite"></div>
+                            <div class="predictor-stats">
+                                <div>
+                                    <span class="predictor-stat-label" data-i18n="text_predictor_vocab">Vocabulario</span>
+                                    <strong class="predictor-stat-value" id="vocabCount">0</strong>
+                                </div>
+                                <div>
+                                    <span class="predictor-stat-label" data-i18n="text_predictor_phrases">Frases</span>
+                                    <strong class="predictor-stat-value" id="phraseCount">0</strong>
+                                </div>
+                            </div>
+                            <p class="predictor-model-status" id="modelStatus" aria-live="polite"></p>
+                        </aside>
+                    </div>
+
+                    <div class="predictor-architecture">
+                        <div class="predictor-architecture-heading">
+                            <div>
+                                <h2 data-i18n="text_predictor_arch_title">Arquitectura de la red</h2>
+                                <p data-i18n="text_predictor_arch_desc">Añade capacidad y vuelve a entrenar para comparar el resultado.</p>
+                            </div>
+                            <span class="predictor-architecture-stats" id="architectureStats">2 capas · 24 neuronas</span>
+                        </div>
+                        <div class="predictor-network-diagram" id="architectureDiagram" role="img" aria-label="Diagrama de capas de la red neuronal"></div>
+                        <div class="predictor-architecture-controls">
+                            <button class="btn" id="addNeuron" type="button" disabled data-i18n="text_predictor_add_neuron">+ Añadir neurona</button>
+                            <button class="btn" id="addLayer" type="button" disabled data-i18n="text_predictor_add_layer">+ Añadir capa</button>
+                            <button class="btn" id="resetArchitecture" type="button" disabled data-i18n="text_predictor_reset_arch">Restablecer</button>
+                            <span class="predictor-controls-spacer"></span>
+                            <button class="btn primary" id="runTraining" type="button" disabled data-i18n="text_predictor_train_model">Entrenar red</button>
+                        </div>
+                        <div class="predictor-training-metrics">
+                            <div><span data-i18n="text_predictor_accuracy">Precisión de entrenamiento</span><strong id="networkAccuracy">—</strong></div>
+                            <div><span data-i18n="text_predictor_loss">Pérdida</span><strong id="networkLoss">—</strong></div>
+                            <div><span data-i18n="text_predictor_delta">Cambio vs. anterior</span><strong id="accuracyDelta">—</strong></div>
+                        </div>
+                        <progress class="predictor-progress" id="trainingProgress" max="100" value="0" aria-label="Progreso del entrenamiento"></progress>
+                        <p class="predictor-network-status" id="networkStatus" aria-live="polite">Cargando TensorFlow.js...</p>
+                    </div>
+                </div>
+
+                <article class="predictor-education">
+                    <div class="predictor-ai-poster" id="ai-risks-section">
+                        <span class="predictor-ai-poster-kicker" data-i18n="text_predictor_risks_label">IA EN LA SOCIEDAD · BENEFICIOS Y RIESGOS</span>
+                        <h2 data-i18n="text_predictor_risks_title">Beneficios y riesgos de la inteligencia artificial</h2>
+                        <p class="predictor-ai-poster-intro" data-i18n="text_predictor_risks_intro">La IA puede ampliar nuestras capacidades, pero sus resultados dependen de los datos, el diseño y las decisiones humanas.</p>
+                        <div class="predictor-ai-poster-columns">
+                            <div class="predictor-ai-poster-benefits">
+                                <h3 data-i18n="text_predictor_benefits_title">Beneficios</h3>
+                                <ul>
+                                    <li data-i18n="text_predictor_benefit_1">Automatiza tareas repetitivas y libera tiempo para trabajos que requieren criterio humano.</li>
+                                    <li data-i18n="text_predictor_benefit_2">Ayuda a traducir, resumir y adaptar información a distintas necesidades de acceso.</li>
+                                    <li data-i18n="text_predictor_benefit_3">Acelera la exploración de ideas y la creación de primeros borradores.</li>
+                                    <li data-i18n="text_predictor_benefit_4">Puede detectar patrones en grandes conjuntos de datos y apoyar la investigación.</li>
+                                </ul>
+                            </div>
+                            <div class="predictor-ai-poster-risks">
+                                <h3 data-i18n="text_predictor_risks_heading">Riesgos</h3>
+                                <ul>
+                                    <li data-i18n="text_predictor_risk_1">Puede inventar datos o presentar una respuesta incorrecta con mucha seguridad.</li>
+                                    <li data-i18n="text_predictor_risk_2">Los sesgos presentes en los datos pueden producir resultados injustos o discriminatorios.</li>
+                                    <li data-i18n="text_predictor_risk_3">Compartir información personal o confidencial puede comprometer la privacidad.</li>
+                                    <li data-i18n="text_predictor_risk_4">La automatización puede desplazar tareas y concentrar poder si no se gestiona con responsabilidad.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <p class="predictor-ai-poster-principle" data-i18n="text_predictor_responsible_use">Usa la IA como apoyo: verifica la información, protege los datos y reserva las decisiones importantes para personas responsables.</p>
+                    </div>
+
+                    <h2 data-i18n="text_predictor_faq1_q">¿Cómo predice la siguiente palabra?</h2>
+                    <p data-i18n="text_predictor_faq1_a">El texto se convierte en palabras y la red aprende a asignar probabilidades a la siguiente palabra del corpus. La referencia n-gram se usa antes de entrenar; después, las barras muestran la salida de la red neuronal.</p>
+
+                    <h2 data-i18n="text_predictor_flow_title">Del texto a la predicción</h2>
+                    <p data-i18n="text_predictor_flow_a">La demo normaliza el texto a minúsculas, lo separa en palabras y toma las últimas una, dos o tres como contexto. Cada palabra se representa con un vector que indica su posición en el vocabulario. Las capas densas transforman esos vectores y la capa final asigna una probabilidad a cada palabra que aprendió del corpus. Al elegir una sugerencia, se añade al texto y el proceso puede repetirse.</p>
+
+                    <h2 data-i18n="text_predictor_types_title">Familias de modelos de lenguaje</h2>
+                    <h3 class="predictor-education-subheading" data-i18n="text_predictor_decoder_title">Solo decodificador</h3>
+                    <p data-i18n="text_predictor_decoder_desc">Modelos como GPT predicen el siguiente token a partir de los anteriores. Son comunes en chat, escritura y generación de código. Esta demo también predice la siguiente palabra, pero usa capas densas pequeñas: no es un Transformer ni un GPT.</p>
+                    <h3 class="predictor-education-subheading" data-i18n="text_predictor_encoder_title">Solo codificador</h3>
+                    <p data-i18n="text_predictor_encoder_desc">Modelos como BERT procesan el contexto para crear representaciones útiles. Se suelen aplicar a clasificación, búsqueda semántica o extracción de información; no están diseñados principalmente para generar texto palabra a palabra.</p>
+                    <h3 class="predictor-education-subheading" data-i18n="text_predictor_seq2seq_title">Codificador y decodificador</h3>
+                    <p data-i18n="text_predictor_seq2seq_desc">Arquitecturas como T5 convierten una secuencia de entrada en otra secuencia. Encajan en tareas como traducción, resumen y reformulación, donde la salida transforma el texto recibido.</p>
+                    <h3 class="predictor-education-subheading" data-i18n="text_predictor_multimodal_title">Modelos multimodales</h3>
+                    <p data-i18n="text_predictor_multimodal_desc">Combinan texto con otros tipos de datos, como imágenes, audio o vídeo. Pueden describir una imagen o responder preguntas sobre una grabación; necesitan componentes preparados para esas modalidades.</p>
+
+                    <h2 data-i18n="text_predictor_learning_title">Cómo se entrena un modelo</h2>
+                    <h3 class="predictor-education-subheading" data-i18n="text_predictor_pretraining_title">1. Preentrenamiento</h3>
+                    <p data-i18n="text_predictor_pretraining_desc">En el aprendizaje autosupervisado, el propio texto proporciona los ejemplos: el modelo intenta predecir tokens ocultos o el siguiente token y ajusta sus pesos para reducir el error. Repetirlo sobre muchos datos le permite aprender regularidades del lenguaje.</p>
+                    <h3 class="predictor-education-subheading" data-i18n="text_predictor_finetuning_title">2. Ajuste fino supervisado</h3>
+                    <p data-i18n="text_predictor_finetuning_desc">Después, ejemplos escritos por personas pueden enseñar un formato o una tarea concreta, por ejemplo seguir instrucciones, resumir o responder con una estructura determinada. El ajuste fino cambia los pesos del modelo.</p>
+                    <h3 class="predictor-education-subheading" data-i18n="text_predictor_alignment_title">3. Alineamiento con preferencias</h3>
+                    <p data-i18n="text_predictor_alignment_desc">Métodos como RLHF o DPO usan comparaciones y preferencias humanas para orientar las respuestas. No añaden una base de hechos infalible: ayudan a moldear el comportamiento según los criterios de entrenamiento.</p>
+                    <h3 class="predictor-education-subheading" data-i18n="text_predictor_rag_title">4. Recuperación de información (RAG)</h3>
+                    <p data-i18n="text_predictor_rag_desc">RAG busca documentos relevantes y los incluye en el contexto antes de generar una respuesta. Normalmente no reentrena los pesos; aporta fuentes externas actualizadas que el modelo puede usar en esa consulta.</p>
+
+                    <h2 data-i18n="text_predictor_neuron_title">Qué es una neurona artificial</h2>
+                    <p data-i18n="text_predictor_neuron_desc">Una neurona recibe números, multiplica cada entrada por un peso, suma un sesgo y aplica una función de activación. De forma simplificada: salida = activación(suma de entradas × pesos + sesgo). Por sí sola hace una operación sencilla; conectada con muchas otras puede representar patrones más complejos.</p>
+                    <h3 class="predictor-education-subheading" data-i18n="text_predictor_backprop_title">Pesos, pérdida y retropropagación</h3>
+                    <p data-i18n="text_predictor_backprop_desc">La pérdida mide cuánto se equivoca la predicción frente a la palabra objetivo. La retropropagación calcula cómo contribuyeron los pesos a ese error y un optimizador los actualiza poco a poco. Una época es una pasada por los ejemplos de entrenamiento.</p>
+                    <h3 class="predictor-education-subheading" data-i18n="text_predictor_capacity_title">Más neuronas no siempre significa mejor</h3>
+                    <p data-i18n="text_predictor_capacity_desc">Una red mayor puede aprender patrones más difíciles, pero con pocos ejemplos también puede memorizar el corpus y generalizar peor. Aquí la precisión se mide sobre los mismos datos usados para entrenar, no sobre un conjunto independiente de validación; sirve para comparar esta demo, no para medir calidad en texto nuevo.</p>
+
+                    <h2 data-i18n="text_predictor_faq2_q">¿Es un modelo de lenguaje grande?</h2>
+                    <p data-i18n="text_predictor_faq2_a">No. Es una red densa pequeña de TensorFlow.js que aprende únicamente del corpus editable y predice una palabra por paso. No usa atención ni la arquitectura Transformer de un LLM. El entrenamiento y las predicciones ocurren en este navegador; TensorFlow.js se descarga desde una CDN.</p>
+                </article>
+            </div>
+        </main>
+
+        <script src="js/predictor-texto.js"></script>
+    </body>
+</html>

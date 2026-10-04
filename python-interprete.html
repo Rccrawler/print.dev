@@ -1,26 +1,66 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Intérprete Python Online</title>
-    <link rel="stylesheet" href="./estilos.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-    <link rel="manifest" href="site.webmanifest">
-    <!-- Windows 8+ -->
-    <meta name="msapplication-TileColor" content="#2d89ef">
-    <meta name="msapplication-config" content="browserconfig.xml">
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PK49GNTRRZ"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
+    <head>
+        <meta charset="UTF-8">
+        <script>document.documentElement.style.background="#11151c";try{if(localStorage.getItem("user_lang")==="en")document.documentElement.classList.add("i18n-loading")}catch(e){}</script>
+        <script>
+            (function() {
+                let theme = 'dark';
+                try {
+                    if (localStorage.getItem('user_theme') === 'light') theme = 'light';
+                } catch {}
+                document.documentElement.setAttribute('data-theme', theme);
+            })();
+        </script>
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+        <title data-i18n="title_python">Intérprete de Python online, sin instalar nada | print.dev</title>
+        <meta name="description" content="Ejecuta código Python directamente en el navegador con Pyodide, sin instalar Python.">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="css/styles.css">
+        <script src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"></script>
+        <script src="js/locales.js" defer></script>
+        <script src="js/i18n.js" defer></script>
 
-        gtag('config', 'G-PK49GNTRRZ');
-    </script>
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-PK49GNTRRZ"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-PK49GNTRRZ');
+        </script>
+    </head>
+
+    <body class="tool-page">
+        <main>
+            <div class="wrap">
+                <a class="back" href="index.html" data-i18n="back_to_tools">← Volver a todas las herramientas</a>
+
+                <div class="card" style="view-transition-name:vt-python">
+                    <h1 style="font-size:26px;margin-bottom:6px" data-i18n="tool_python_h1">Intérprete de Python</h1>
+                    <p style="color:var(--text-dim);font-size:14px;margin-bottom:16px" data-i18n="tool_python_sub">Ejecuta Python real en tu navegador. El código se procesa localmente y nada se envía a un servidor.</p>
+                    <textarea id="pythonIn" style="min-height:190px">numbers = [2, 4, 6, 8]&#10;for number in numbers:&#10;    print(f"El doble de {number} es {number * 2}")</textarea>
+                    <div class="row">
+                        <button class="btn primary" id="pythonRun" onclick="runPythonCode()" data-i18n="btn_run">Ejecutar</button>
+                        <button class="btn" onclick="document.getElementById('pythonIn').value='';document.getElementById('pythonOut').textContent='';document.getElementById('pythonStatus').textContent=window.i18n?window.i18n.t('python_status_initial'):'Listo para ejecutar.'" data-i18n="btn_clear">Limpiar</button>
+                    </div>
+                    <div class="out" id="pythonOut"></div>
+                    <small id="pythonStatus" data-i18n="python_status_initial">La primera ejecución carga Python en el navegador y puede tardar unos segundos.</small>
+                </div>
+
+                <article>
+                    <h2 data-i18n="python_faq1_q">¿Cómo funciona?</h2>
+                    <p data-i18n="python_faq1_a">Esta herramienta usa Pyodide para ejecutar CPython compilado a WebAssembly dentro del navegador. La primera ejecución descarga el runtime; después se reutiliza mientras la página siga abierta y el navegador puede conservarlo en caché.</p>
+                    <h2 data-i18n="python_faq2_q">¿Qué puedo probar?</h2>
+                    <p data-i18n="python_faq2_a">Puedes usar sintaxis real de Python, listas, diccionarios, funciones, excepciones y muchas partes de la biblioteca estándar. Las librerías externas pueden necesitar una carga adicional.</p>
+                </article>
+            </div>
+        </main>
+
+        <script src="js/python-interprete.js"></script>
+    </body>
+</html>
