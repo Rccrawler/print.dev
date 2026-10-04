@@ -12,6 +12,11 @@
     <div class="lightbox-layout">
       <div class="lightbox-stage">
         <button class="lightbox-close" type="button" data-lightbox-close aria-label="Cerrar imagen" data-i18n-aria-label="gallery_close">×</button>
+        <div class="lightbox-zoom" role="group" aria-label="Controles de zoom" data-i18n-aria-label="gallery_zoom_controls">
+          <button class="lightbox-zoom-button" type="button" data-lightbox-zoom-out aria-label="Alejar" data-i18n-aria-label="gallery_zoom_out">−</button>
+          <button class="lightbox-zoom-level" type="button" data-lightbox-zoom-reset aria-label="Restablecer zoom" data-i18n-aria-label="gallery_zoom_reset" aria-live="polite">100%</button>
+          <button class="lightbox-zoom-button" type="button" data-lightbox-zoom-in aria-label="Ampliar" data-i18n-aria-label="gallery_zoom_in">+</button>
+        </div>
         <button class="lightbox-arrow lightbox-prev" type="button" data-lightbox-prev aria-label="Imagen anterior" data-i18n-aria-label="gallery_prev">
           <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m12.5 4.5-5.5 5.5 5.5 5.5"/></svg>
         </button>
@@ -28,10 +33,52 @@
   document.body.append(lightbox);
 
   const lightboxImage = lightbox.querySelector(".lightbox-image");
+  const lightboxStage = lightbox.querySelector(".lightbox-stage");
   const lightboxDescription = lightbox.querySelector(".lightbox-description");
   const lightboxCount = lightbox.querySelector(".lightbox-count");
   let activeGallery = null;
-  let lightboxOpener = null;
+  let zoom = 1;
+  let panX = 0;
+  let panY = 0;
+  let pinchStartDistance = 0;
+  let pinchStartZoom = 1;
+  let dragStartX = 0;
+  let dragStartY = 0;
+  let dragStartPanX = 0;
+  let dragStartPanY = 0;
+  const activePointers = new Map();
+
+  const renderZoom = () => {
+    const bounds = lightboxStage.getBoundingClientRect();
+    const maxPanX = Math.max(0, (lightboxImage.clientWidth * zoom - bounds.width) / 2);
+    const maxPanY = Math.max(0, (lightboxImage.clientHeight * zoom - bounds.height) / 2);
+    panX = Math.max(-maxPanX, Math.min(maxPanX, panX));
+    panY = Math.max(-maxPanY, Math.min(maxPanY, panY));
+    lightboxImage.style.transform = `translate(${panX}px, ${panY}px) scale(${zoom})`;
+    lightboxStage.classList.toggle("is-zoomed", zoom > 1);
+    lightbox.querySelector("[data-lightbox-zoom-reset]").textContent = `${Math.round(zoom * 100)}%`;
+    lightbox.querySelector("[data-lightbox-zoom-out]").disabled = zoom <= 1;
+    lightbox.querySelector("[data-lightbox-zoom-in]").disabled = zoom >= 4;
+  };
+
+  const setZoom = (nextZoom, anchorX, anchorY) => {
+    const next = Math.max(1, Math.min(4, nextZoom));
+    const stageBounds = lightboxStage.getBoundingClientRect();
+    const focusX = (anchorX ?? stageBounds.left + stageBounds.width / 2) - stageBounds.left - stageBounds.width / 2;
+    const focusY = (anchorY ?? stageBounds.top + stageBounds.height / 2) - stageBounds.top - stageBounds.height / 2;
+    const zoomRatio = next / zoom;
+    panX = focusX - (focusX - panX) * zoomRatio;
+    panY = focusY - (focusY - panY) * zoomRatio;
+    zoom = next;
+    renderZoom();
+  };
+
+  const resetZoom = () => {
+    zoom = 1;
+    panX = 0;
+    panY = 0;
+    renderZoom();
+  };
 
   const translateLightbox = () => {
     if (window.i18n) {
@@ -54,11 +101,11 @@
       return;
     }
 
-    lightboxOpener = activeSlide.querySelector("[data-gallery-open]") || lightboxOpener;
     lightboxImage.src = sourceImage.currentSrc || sourceImage.src;
     lightboxImage.alt = sourceImage.alt;
     lightboxDescription.textContent = activeSlide.querySelector("figcaption")?.textContent || sourceImage.alt;
     lightboxCount.textContent = `${String(activeIndex + 1).padStart(2, "0")} / ${String(slides.length).padStart(2, "0")}`;
+    resetZoom();
 
     const hasMultipleImages = slides.length > 1;
     lightbox.querySelector("[data-lightbox-prev]").hidden = !hasMultipleImages;
@@ -80,6 +127,9 @@
     }
     if (event.target.closest("[data-lightbox-prev]")) changeLightboxImage(-1);
     if (event.target.closest("[data-lightbox-next]")) changeLightboxImage(1);
+    if (event.target.closest("[data-lightbox-zoom-in]")) setZoom(zoom + 0.5);
+    if (event.target.closest("[data-lightbox-zoom-out]")) setZoom(zoom - 0.5);
+    if (event.target.closest("[data-lightbox-zoom-reset]")) resetZoom();
   });
 
   lightbox.addEventListener("keydown", (event) => {
@@ -92,8 +142,64 @@
     } else if (event.key === "Escape") {
       event.preventDefault();
       lightbox.close();
+    } else if (event.key === "+" || event.key === "=") {
+      event.preventDefault();
+      setZoom(zoom + 0.5);
+    } else if (event.key === "-") {
+      event.preventDefault();
+      setZoom(zoom - 0.5);
+    } else if (event.key === "0") {
+      event.preventDefault();
+      resetZoom();
     }
   });
+
+  lightboxStage.addEventListener("pointerdown", (event) => {
+    if (event.target.closest("button")) return;
+    if (event.pointerType === "mouse" && zoom === 1) return;
+    event.preventDefault();
+    activePointers.set(event.pointerId, { x: event.clientX, y: event.clientY, type: event.pointerType });
+    lightboxStage.setPointerCapture(event.pointerId);
+
+    if (activePointers.size === 2) {
+      const [first, second] = Array.from(activePointers.values());
+      pinchStartDistance = Math.hypot(first.x - second.x, first.y - second.y);
+      pinchStartZoom = zoom;
+    } else {
+      dragStartX = event.clientX;
+      dragStartY = event.clientY;
+      dragStartPanX = panX;
+      dragStartPanY = panY;
+    }
+  });
+
+  lightboxStage.addEventListener("pointermove", (event) => {
+    if (!activePointers.has(event.pointerId)) return;
+    activePointers.set(event.pointerId, { x: event.clientX, y: event.clientY, type: event.pointerType });
+
+    if (activePointers.size >= 2) {
+      const [first, second] = Array.from(activePointers.values());
+      const distance = Math.hypot(first.x - second.x, first.y - second.y);
+      if (pinchStartDistance > 0) {
+        setZoom(pinchStartZoom * distance / pinchStartDistance, (first.x + second.x) / 2, (first.y + second.y) / 2);
+      }
+    } else if (zoom > 1) {
+      const pointer = activePointers.get(event.pointerId);
+      if (pointer.type === "touch" || event.buttons === 1) {
+        panX = dragStartPanX + event.clientX - dragStartX;
+        panY = dragStartPanY + event.clientY - dragStartY;
+        renderZoom();
+      }
+    }
+  });
+
+  const releasePointer = (event) => {
+    activePointers.delete(event.pointerId);
+    if (activePointers.size < 2) pinchStartDistance = 0;
+  };
+  lightboxStage.addEventListener("pointerup", releasePointer);
+  lightboxStage.addEventListener("pointercancel", releasePointer);
+  lightboxStage.addEventListener("lostpointercapture", releasePointer);
 
   lightbox.addEventListener("cancel", (event) => {
     event.preventDefault();
@@ -103,7 +209,6 @@
   lightbox.addEventListener("close", () => {
     const galleryToRestoreFocus = activeGallery;
     activeGallery = null;
-    lightboxOpener = null;
     window.setTimeout(() => {
       galleryToRestoreFocus
         ?.querySelector(".gallery-slide:not([hidden]) [data-gallery-open]")
@@ -180,7 +285,6 @@
       const openButton = target.closest("[data-gallery-open]");
       if (openButton && gallery.contains(openButton)) {
         activeGallery = gallery;
-        lightboxOpener = openButton;
         renderLightbox();
         lightbox.showModal();
         lightbox.querySelector("[data-lightbox-close]").focus();
