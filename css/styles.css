@@ -1771,7 +1771,7 @@ button.btn.primary {
 
 /* VISTA AMPLIADA DE LAS GALERÍAS */
 .gallery-lightbox {
-  width: min(1040px, calc(100vw - 40px));
+  width: min(1120px, calc(100vw - 40px));
   max-width: none;
   max-height: calc(100dvh - 40px);
   margin: auto;
@@ -1795,7 +1795,8 @@ button.btn.primary {
 
 .lightbox-layout {
   display: grid;
-  grid-template-rows: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) 220px;
+  height: min(76dvh, 760px);
   max-height: calc(100dvh - 40px);
 }
 
@@ -1827,11 +1828,12 @@ button.btn.primary {
 .lightbox-image {
   display: block;
   max-width: 100%;
-  max-height: calc(100dvh - 170px);
+  max-height: calc(76dvh - 80px);
   object-fit: contain;
   pointer-events: none;
   user-select: none;
   -webkit-user-drag: none;
+  transition: transform 0.16s ease-out;
 }
 
 .lightbox-close {
@@ -1932,17 +1934,64 @@ button.btn.primary {
 .lightbox-prev { left: 16px; }
 .lightbox-next { right: 16px; }
 
+.lightbox-info {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 18px 14px;
+  border-left: 1px solid var(--border);
+  background: var(--surface);
+}
+
 .lightbox-caption {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 15px 20px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
   color: var(--text);
   font: 12px var(--mono);
 }
 
 .lightbox-count { color: var(--accent); }
+
+.lightbox-thumbnails {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.lightbox-thumbnails[hidden] { display: none; }
+
+.lightbox-thumbnail {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  min-width: 0;
+  overflow: hidden;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: var(--bg);
+  cursor: pointer;
+  opacity: 0.65;
+  transition: opacity 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+}
+
+.lightbox-thumbnail:hover,
+.lightbox-thumbnail[aria-current="true"] {
+  border-color: var(--accent);
+  opacity: 1;
+}
+
+.lightbox-thumbnail:hover { transform: translateY(-2px); }
+
+.lightbox-thumbnail img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 
 /* ==========================================================================
    6. SECCIÓN "SOBRE MÍ" / PERFIL DE DEVELOPER
@@ -2586,17 +2635,19 @@ footer {
   }
 
   .lightbox-layout {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) auto;
+    height: auto;
     max-height: calc(100dvh - 24px);
   }
 
   .lightbox-stage {
-    min-height: 190px;
     min-height: min(75dvh, 540px);
     padding: 64px 48px 24px;
   }
 
   .lightbox-image {
-    max-height: calc(75dvh - 104px);
+    max-height: calc(75dvh - 88px);
   }
 
   .lightbox-prev { left: 8px; }
@@ -2619,9 +2670,32 @@ footer {
     height: 36px;
   }
 
-  .lightbox-caption {
+  .lightbox-info {
+    gap: 10px;
     padding: 12px 14px;
+    border-top: 1px solid var(--border);
+    border-left: 0;
+  }
+
+  .lightbox-caption {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
     font-size: 10px;
+  }
+
+  .lightbox-thumbnails {
+    display: flex;
+    gap: 7px;
+    overflow-x: auto;
+    padding-bottom: 2px;
+  }
+
+  .lightbox-thumbnail {
+    width: 68px;
+    height: 48px;
+    flex: 0 0 auto;
   }
 
   .tool-page main .wrap {

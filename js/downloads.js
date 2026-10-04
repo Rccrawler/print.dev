@@ -25,10 +25,13 @@
           <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m7.5 4.5 5.5 5.5-5.5 5.5"/></svg>
         </button>
       </div>
-      <div class="lightbox-caption">
-        <span class="lightbox-description"></span>
-        <span class="lightbox-count" aria-live="polite"></span>
-      </div>
+      <aside class="lightbox-info">
+        <div class="lightbox-caption">
+          <span class="lightbox-description"></span>
+          <span class="lightbox-count" aria-live="polite"></span>
+        </div>
+        <div class="lightbox-thumbnails" data-lightbox-thumbnails aria-label="Elegir imagen" data-i18n-aria-label="gallery_choose_image"></div>
+      </aside>
     </div>`;
   document.body.append(lightbox);
 
@@ -36,6 +39,7 @@
   const lightboxStage = lightbox.querySelector(".lightbox-stage");
   const lightboxDescription = lightbox.querySelector(".lightbox-description");
   const lightboxCount = lightbox.querySelector(".lightbox-count");
+  const lightboxThumbnails = lightbox.querySelector("[data-lightbox-thumbnails]");
   let activeGallery = null;
   let zoom = 1;
   let panX = 0;
@@ -105,6 +109,34 @@
     lightboxImage.alt = sourceImage.alt;
     lightboxDescription.textContent = activeSlide.querySelector("figcaption")?.textContent || sourceImage.alt;
     lightboxCount.textContent = `${String(activeIndex + 1).padStart(2, "0")} / ${String(slides.length).padStart(2, "0")}`;
+    lightboxThumbnails.replaceChildren();
+
+    if (slides.length > 1) {
+      const labelTemplate = window.i18n
+        ? window.i18n.t("gallery_show_image")
+        : "Show image {index}";
+
+      slides.forEach((slide, index) => {
+        const image = slide.querySelector("img");
+        if (!image) return;
+
+        const thumbnail = document.createElement("button");
+        thumbnail.type = "button";
+        thumbnail.className = "lightbox-thumbnail";
+        thumbnail.dataset.lightboxTo = String(index);
+        thumbnail.setAttribute("aria-label", labelTemplate.replace("{index}", String(index + 1)));
+        thumbnail.setAttribute("aria-current", index === activeIndex ? "true" : "false");
+
+        const thumbnailImage = document.createElement("img");
+        thumbnailImage.src = image.currentSrc || image.src;
+        thumbnailImage.alt = "";
+        thumbnailImage.loading = "lazy";
+        thumbnail.append(thumbnailImage);
+        lightboxThumbnails.append(thumbnail);
+      });
+    }
+
+    lightboxThumbnails.hidden = slides.length < 2;
     resetZoom();
 
     const hasMultipleImages = slides.length > 1;
@@ -130,7 +162,17 @@
     if (event.target.closest("[data-lightbox-zoom-in]")) setZoom(zoom + 0.5);
     if (event.target.closest("[data-lightbox-zoom-out]")) setZoom(zoom - 0.5);
     if (event.target.closest("[data-lightbox-zoom-reset]")) resetZoom();
+    const thumbnail = event.target.closest("[data-lightbox-to]");
+    if (thumbnail && activeGallery) {
+      activeGallery.querySelector(`[data-gallery-to="${thumbnail.dataset.lightboxTo}"]`)?.click();
+    }
   });
+
+  lightboxStage.addEventListener("wheel", (event) => {
+    if (event.target.closest("button")) return;
+    event.preventDefault();
+    setZoom(zoom * Math.exp(-event.deltaY * 0.0015), event.clientX, event.clientY);
+  }, { passive: false });
 
   lightbox.addEventListener("keydown", (event) => {
     if (event.key === "ArrowLeft") {
@@ -216,7 +258,10 @@
     }, 0);
   });
 
-  document.addEventListener("languageChanged", translateLightbox);
+  document.addEventListener("languageChanged", () => {
+    translateLightbox();
+    if (lightbox.open) renderLightbox();
+  });
   translateLightbox();
 
   const initializedGalleries = new WeakSet();
