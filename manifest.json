@@ -1,0 +1,25 @@
+{
+  "name": "print.dev | Herramientas online para desarrolladores",
+  "short_name": "print.dev",
+  "theme_color": "#dfaf49",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "orientation": "any",
+  "scope": "/",
+  "start_url": "/",
+  "description": "Herramientas online gratis para programadores: formateador JSON, Base64, intérprete de Java, intérprete de Phyton.",
+  "icons": [
+    {
+      "src": "img/favicon.svg",
+      "purpose": "any",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "img/favicon.svg",
+      "purpose": "any",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}
